@@ -1,6 +1,5 @@
 # ESUtlilty
-We have a reporting platform based on Elasticsearch. And I often get requests to add fields or modify a mapping of a field. 
-But once the data is indexed in to ES it cannot be modified. So I developed a tool which can modify mapping of an Elasticsearch index.
+This is a fork of `https://github.com/abhishek376/ESUtlilty`. I upgraded the elastic client version to 2.3.4 and fixed an issue mentioned in this thread (https://github.com/abhishek376/ESUtlilty/issues/1)
 
 More info http://www.elasticsearch.org/blog/changing-mapping-with-zero-downtime/
 
