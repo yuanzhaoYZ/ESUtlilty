@@ -115,10 +115,10 @@ public class Main {
                 settings.setOperationType(Settings.OpType.RESTORE);
                 System.out.println("Trying to Read " + settings.file);
                 Backup.hits.clear(); //Clear the buffer
-                ArrayList<Map<String,Object>> hits =  Backup.ReadFile(settings);
+                Map<String,Map<String,Object>> hits =  Backup.ReadFile(settings);
                 System.out.println("Finished reading the file. Found " + hits.size() + " documents");
                 System.out.println("Trying to write to index : " + settings.index);
-                Backup.RestoreIndex(settings, hits);
+//                Backup.RestoreIndex(settings, hits);
                 System.out.println("Restore finished to index : " + settings.index );
             }
             else

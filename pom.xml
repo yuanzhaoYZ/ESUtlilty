@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <es.version>0.90.7</es.version>
+        <es.version>2.3.4</es.version>
         <jackson.version>1.8.8</jackson.version>
         <maven.build.timestamp.format>MM-dd-yyyy_HHmm</maven.build.timestamp.format>
         <buildNumber>${maven.build.timestamp}</buildNumber>

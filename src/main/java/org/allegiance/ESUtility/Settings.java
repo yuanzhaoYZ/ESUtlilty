@@ -2,8 +2,10 @@ package org.allegiance.ESUtility;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * User:    Abhishek
@@ -34,63 +36,65 @@ public class Settings {
     }
 
 
-    public Settings(String args[])
-    {
+    public Settings(String args[]) {
         this.oldIndex = args[0];
         this.newIndex = args[1];
         this.mappingType = args[2];
-        this.client = new TransportClient().addTransportAddress(new InetSocketTransportAddress(args[3], 9300));
+        this.client = InitTransport(args[3], "9300");
         this.field = args[4];
         this.newFieldType = args[5];
         this.bufferThreshold = 100;
-        this.scrollSize =  100;
+        this.scrollSize = 100;
     }
 
-    public Settings(String index, String mappingType, String esHost, String clusterName, String filePath)
-    {
+    public Settings(String index, String mappingType, String esHost, String clusterName, String filePath) {
         this.index = index;
         this.mappingType = mappingType;
         this.esHost = esHost;
         this.file = filePath;
-        this.scrollSize =  100;
+        this.scrollSize = 100;
         this.bufferThreshold = 100;
-        this.client = InitTransport(clusterName,esHost);
+        this.client = InitTransport(clusterName, esHost);
     }
 
-    public void setOperationType(OpType op)
-    {
+    public void setOperationType(OpType op) {
         this.operationType = op;
     }
 
 
-    public Settings(String oldIndex, String newIndex, String mappingType, String esHost, String clusterName, String field, String newFieldType, String removeField)
-    {
+    public Settings(String oldIndex, String newIndex, String mappingType, String esHost, String clusterName, String field, String newFieldType, String removeField) {
         this.oldIndex = oldIndex;
         this.newIndex = newIndex;
         this.mappingType = mappingType;
         this.field = field;
         this.newFieldType = newFieldType;
-        this.client = InitTransport(clusterName,esHost);
+        this.client = InitTransport(clusterName, esHost);
         this.bufferThreshold = 100;
-        this.scrollSize =  100;
+        this.scrollSize = 100;
         this.removeField = removeField;
     }
 
-    public Settings(String oldIndex, String newIndex, String mappingType, String esHost, String clusterName, int esPort, String field, String newFieldType, int bufferThreshold, int scrollSize)
-    {
+    public Settings(String oldIndex, String newIndex, String mappingType, String esHost, String clusterName, int esPort, String field, String newFieldType, int bufferThreshold, int scrollSize) {
         this.oldIndex = oldIndex;
         this.newIndex = newIndex;
         this.mappingType = mappingType;
         this.field = field;
         this.newFieldType = newFieldType;
-        this.client = InitTransport(clusterName,esHost);
+        this.client = InitTransport(clusterName, esHost);
         this.bufferThreshold = bufferThreshold;
-        this.scrollSize =  scrollSize;
+        this.scrollSize = scrollSize;
     }
 
-    private Client InitTransport(String clusterName, String esHost)
-    {
-       org.elasticsearch.common.settings.Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", clusterName).build();
-       return new TransportClient(settings).addTransportAddress(new InetSocketTransportAddress(esHost, 9300));
+    private Client InitTransport(String clusterName, String esHost) {
+
+        org.elasticsearch.common.settings.Settings settings = org.elasticsearch.common.settings.Settings.settingsBuilder().put("cluster.name", clusterName).build();
+        InetAddress inetAddress = null;
+        try {
+            inetAddress = InetAddress.getByName(esHost);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return TransportClient.builder().settings(settings).build()
+                .addTransportAddress(new InetSocketTransportAddress(inetAddress, 9300));
     }
 }

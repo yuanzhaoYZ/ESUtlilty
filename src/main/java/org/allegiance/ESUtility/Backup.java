@@ -5,6 +5,7 @@ import org.elasticsearch.search.SearchHit;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,7 +27,7 @@ public class Backup {
       for(Map<String,Object> hit : hits)
       {
           BufferedClient.setSettings(settings);
-          BufferedClient.executeESBulk(hit);
+//          BufferedClient.executeESBulk(hit, );
       }
     }
 
@@ -54,10 +55,10 @@ public class Backup {
         }
     }
 
-    public static ArrayList<Map<String,Object>> ReadFile(Settings settings)
+    public static Map<String,Map<String,Object>> ReadFile(Settings settings)
     {
         Map<String,Object> map;
-        ArrayList<Map<String,Object>> hits = new ArrayList<Map<String,Object>>();
+        Map<String,Map<String,Object>> hits = new HashMap<String,Map<String,Object>>();
          try
          {
             try
@@ -69,7 +70,7 @@ public class Backup {
                     try
                     {
                          map = (Map<String,Object>) in.readObject();
-                         hits.add(map);
+//                         hits.put(map);
                     }
                     catch(Exception ex)
                     {
